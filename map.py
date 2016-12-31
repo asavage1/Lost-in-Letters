@@ -1,4 +1,4 @@
-#
+# map.py
 # Andrew Savage
 # map generation for lost in letters
 
