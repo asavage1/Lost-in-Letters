@@ -5,11 +5,17 @@
 # Global variables for display size
 dispWidth = 30
 disHeight = 30
+initWidth = dispWidth * 10    # this is actually the initial width - 1
+initHeight = dispHeight * 10
+
+# Contains list of arrays which contain the ASCII chars in the map (in cols)
+Rmap = [] # includes center column
+Lmap = []
+
+##### Generate Map #####
 
 # Run all processes to generate intial map
 def generateMap():
-    # Determine initial mapsize
-    
     # Declare 2d array for map: Option 1: One 2d array that can expand any
     #                                     way but up
     #                                  2: 2 2d arrays that can expand only 2
@@ -17,6 +23,15 @@ def generateMap():
     #                                     one expands "left" and the right
     #                                     one expands "right"
     # Option 1 may make it hard to keep track of player coordinates
+    Rmap.append([]) # center column
+    for x in range(initSize / 2):
+        Rmap.append([])
+        Lmap.append([])
+    for x,y in map(None, Rmap, Lmap) # may have to do a less fancy way
+        for z in range(initHeight):
+            # Initialize all elements in map to ' '
+            x.append(' ')
+            y.append(' ')
 
     # Initialize elements of array:
     #    1. Initialize sky (spaces)
@@ -24,9 +39,16 @@ def generateMap():
     #    3. Initialize other layers (TBD)
     #    4. Initialize special objects (Later versions)
 
+    # Use normal distribution for surface layer?
     
 
     
+# generateMap helpers
+
+
+    
+##### Expand Map #####
+
 # Expand map when player goes outside of generated range
 def expandMap(): # Pass character coordinates?
     # Add a chunk, size determined by global vairables
