@@ -2,6 +2,8 @@
 # Andrew Savage
 # map generation for lost in letters
 
+import random
+
 # Global variables for display size
 dispWidth = 30
 dispHeight = 30
@@ -13,7 +15,7 @@ skyHeight = int(initHeight / 3)
 
 ###### Global character vars (temporary) ######
 sky = ' '
-dirt = '#'
+dirt = ['#','X']
 grs = '_'
 
 # Contains list of arrays which contain the ASCII chars in the map (in cols)
@@ -56,13 +58,13 @@ def generateMap():
             x[y] = sky
         x[skyHeight] = grs
         for y in range (skyHeight + 1, initHeight):
-            x[y] = dirt
+            x[y] = random.choice(dirt)
     for x in Lmap:
         for y in range(skyHeight):
             x[y] = sky
         x[skyHeight] = grs
         for y in range (skyHeight + 1, initHeight):
-            x[y] = dirt
+            x[y] = random.choice(dirt)
 
     
 # generateMap helpers
