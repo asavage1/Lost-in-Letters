@@ -3,8 +3,8 @@
 # map generation for lost in letters
 
 # Global variables for display size
-dispWidth = 3#0
-dispHeight = 3#0
+dispWidth = 30
+dispHeight = 30
 initWidth = dispWidth * 10    # this is actually the initial width - 1
 initHeight = dispHeight * 10
 
@@ -78,11 +78,11 @@ def expandMap(): # Pass character coordinates?
     
 
 ##### TESTING #####
-    
+# zip(*A) transposes matrix A
 generateMap()
-for col in Lmap:
+for col in zip(*Lmap):
     print(''.join(col))
-for row in Rmap:
+for row in zip(*Rmap):
     print(''.join(col))
     
 #print(Lmap)
