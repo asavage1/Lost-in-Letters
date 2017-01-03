@@ -8,9 +8,17 @@ disHeight = 30
 initWidth = dispWidth * 10    # this is actually the initial width - 1
 initHeight = dispHeight * 10
 
+# Global variables for terrain sizes
+skyHeight = 100
+
+###### Global character vars (temporary) ######
+sky = ' '
+dirt = '#'
+grs = '_'
+
 # Contains list of arrays which contain the ASCII chars in the map (in cols)
-Rmap = [] # includes center column
-Lmap = []
+Rmap = [] # starts as 151 cols by 300 rows, includes center column
+Lmap = [] # starts as 150 cols by 300 rows
 
 ##### Generate Map #####
 
@@ -24,23 +32,31 @@ def generateMap():
     #                                     one expands "right"
     # Option 1 may make it hard to keep track of player coordinates
     Rmap.append([]) # center column
-    for x in range(initSize / 2):
+    for x in range(initWidth / 2):
         Rmap.append([])
         Lmap.append([])
     for x,y in map(None, Rmap, Lmap) # may have to do a less fancy way
         for z in range(initHeight):
-            # Initialize all elements in map to ' '
-            x.append(' ')
-            y.append(' ')
+            # Initialize all elements in map to ''
+            x.append('')
+            y.append('')
 
     # Initialize elements of array:
     #    1. Initialize sky (spaces)
     #    2. Initialize surface layer
     #    3. Initialize other layers (TBD)
     #    4. Initialize special objects (Later versions)
-
+    #
     # Use normal distribution for surface layer?
-    
+    for x, y in map(None, Rmap, Lmap):
+        for z in range(skyHeight):
+            x[z] = sky
+            y[z] = sky
+        x[skyHeight] = grs
+        y[skyHeight] = grs
+        for z in range (skyHeight + 1, initHeight):
+            x[z] = grnd
+            y[z] = grnd
 
     
 # generateMap helpers
