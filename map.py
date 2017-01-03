@@ -3,13 +3,13 @@
 # map generation for lost in letters
 
 # Global variables for display size
-dispWidth = 30
-disHeight = 30
+dispWidth = 3#0
+dispHeight = 3#0
 initWidth = dispWidth * 10    # this is actually the initial width - 1
 initHeight = dispHeight * 10
 
 # Global variables for terrain sizes
-skyHeight = 100
+skyHeight = int(initHeight / 3)
 
 ###### Global character vars (temporary) ######
 sky = ' '
@@ -32,14 +32,16 @@ def generateMap():
     #                                     one expands "right"
     # Option 1 may make it hard to keep track of player coordinates
     Rmap.append([]) # center column
-    for x in range(initWidth / 2):
+    for x in range(int(initWidth / 2)):
         Rmap.append([])
         Lmap.append([])
-    for x,y in map(None, Rmap, Lmap) # may have to do a less fancy way
-        for z in range(initHeight):
-            # Initialize all elements in map to ''
+    # Can combine these two pieces
+    for x in Rmap:
+        for y in range(initHeight):
             x.append('')
-            y.append('')
+    for x in Lmap:  
+        for y in range(initHeight):
+            x.append('')
 
     # Initialize elements of array:
     #    1. Initialize sky (spaces)
@@ -48,15 +50,19 @@ def generateMap():
     #    4. Initialize special objects (Later versions)
     #
     # Use normal distribution for surface layer?
-    for x, y in map(None, Rmap, Lmap):
-        for z in range(skyHeight):
-            x[z] = sky
-            y[z] = sky
+    # Can combine these two pieces
+    for x in Rmap:
+        for y in range(skyHeight):
+            x[y] = sky
         x[skyHeight] = grs
-        y[skyHeight] = grs
-        for z in range (skyHeight + 1, initHeight):
-            x[z] = grnd
-            y[z] = grnd
+        for y in range (skyHeight + 1, initHeight):
+            x[y] = dirt
+    for x in Lmap:
+        for y in range(skyHeight):
+            x[y] = sky
+        x[skyHeight] = grs
+        for y in range (skyHeight + 1, initHeight):
+            x[y] = dirt
 
     
 # generateMap helpers
@@ -68,4 +74,16 @@ def generateMap():
 # Expand map when player goes outside of generated range
 def expandMap(): # Pass character coordinates?
     # Add a chunk, size determined by global vairables
+    x = 0 #temp
     
+
+##### TESTING #####
+    
+generateMap()
+for col in Lmap:
+    print(''.join(col))
+for row in Rmap:
+    print(''.join(col))
+    
+#print(Lmap)
+#print(Rmap)
