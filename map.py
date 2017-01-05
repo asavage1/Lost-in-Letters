@@ -11,7 +11,7 @@ class Map:
     air = ' '
     def __init__(self):
         self.quad_1 = [] # (0,0)
-        self.quad_2 = [] # (-1,1)
+        self.quad_2 = [] # (-1,0)
         self.quad_3 = [] # (-1,-1)
         self.quad_4 = [] # (1,-1)
 
@@ -19,8 +19,12 @@ class Map:
         for x in range(increment_width):
             quad.append([])
 
-        for x in range(len(quad)):
-            quad[x].append('')    
+        for x in range(increment_height):
+            quad[0].append('')
+        len_ = len(quad[0])
+        for x in range(1:len(quad)):
+            while (len(quad[x]) != len_)
+                quad[x].append('')  
     def move_player(self, pos):
 
     def place_block(self, pos, block):
