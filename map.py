@@ -3,18 +3,36 @@
 # map generation for lost in letters
 
 import random
+class Map:
+    increment_height = 1000
+    increment_width = 1000
+    display_width = 100
+    display_height = 40
+    air = ' '
+    def __init__(self):
+        self.quad_1 = [] # (0,0)
+        self.quad_2 = [] # (-1,1)
+        self.quad_3 = [] # (-1,-1)
+        self.quad_4 = [] # (1,-1)
 
-# Global variables for display size
-dispWidth = 30
-dispHeight = 30
-initWidth = dispWidth * 10    # this is actually the initial width - 1
-initHeight = dispHeight * 10
+    def expand_quad(quad):
+        for x in range(increment_width):
+            quad.append([])
+
+        for x in range(len(quad)):
+            quad[x].append('')    
+    def move_player(self, pos):
+
+    def place_block(self, pos, block):
+
+    def destroy_block(self, pos, block):
+
 
 # Global variables for terrain sizes
 skyHeight = int(initHeight / 3)
 
 ###### Global character vars (temporary) ######
-sky = ' '
+
 dirt = ['#','X']
 grs = '_'
 
