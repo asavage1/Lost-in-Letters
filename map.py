@@ -53,6 +53,7 @@ def generateMap():
     #
     # Use normal distribution for surface layer?
     # Can combine these two pieces
+    i = 1
     for x in Rmap:
         for y in range(skyHeight):
             x[y] = sky
@@ -65,6 +66,9 @@ def generateMap():
         x[skyHeight] = grs
         for y in range (skyHeight + 1, initHeight):
             x[y] = random.choice(dirt)
+        i = i + 1
+        if i % 1000:
+            random.seed();
 
     
 # generateMap helpers
