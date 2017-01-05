@@ -1,12 +1,19 @@
 import pygame
 import block
 
+blocks = [];
+blocks[0] = Block('.', 1, 3, False)
+blocks[1] = Block('#', .5, 5, False)
+blocks[2] = Block("~", .1, 4, False)
+
 class Game:
 	# init initializes the map, the user, and the blocks
 	def __init__(self):
-        blocks = [];
-        blocks[0] = Block('.', 1, 3, False)
-		#initialize array of blocks
+        # init blocks
+
+
+        self.
+
 	def run_game(self):
 
         time_down = 0.0

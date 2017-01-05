@@ -1,7 +1,8 @@
 # map.py
 # Andrew Savage
 # map generation for lost in letters
-
+import game
+import block
 import random
 class Map:
     increment_height = 1000
