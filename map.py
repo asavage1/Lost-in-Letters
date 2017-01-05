@@ -13,7 +13,7 @@ class Map:
         self.quad_1 = [] # (0,0)
         self.quad_2 = [] # (-1,0)
         self.quad_3 = [] # (-1,-1)
-        self.quad_4 = [] # (1,-1)
+        self.quad_4 = [] # (0,-1)
         expand_quad(self.quad_1)
         expand_quad(self.quad_2)
         expand_quad(self.quad_3)
