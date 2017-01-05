@@ -14,15 +14,17 @@ class Map:
         self.quad_2 = [] # (-1,0)
         self.quad_3 = [] # (-1,-1)
         self.quad_4 = [] # (1,-1)
+        expand_quad(self.quad_1)
+        expand_quad(self.quad_2)
+        expand_quad(self.quad_3)
+        expand_quad(self.quad_4)
 
     def expand_quad(quad):
         for x in range(increment_width):
             quad.append([])
 
-        for x in range(increment_height):
-            quad[0].append('')
-        len_ = len(quad[0])
-        for x in range(1:len(quad)):
+        len_ = len(quad[0] + increment_height)
+        for x in range(len(quad)):
             while (len(quad[x]) != len_)
                 quad[x].append('')  
     def move_player(self, pos):
