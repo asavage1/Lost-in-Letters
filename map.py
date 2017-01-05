@@ -27,22 +27,23 @@ class Map:
         len_ = len(quad[0] + increment_height)
         for x in range(len(quad)):
             while (len(quad[x]) != len_)
-                quad[x].append('')  
+                quad[x].append('')
+        fill()
     def move_player(self, pos):
 
     def place_block(self, pos, block):
 
     def destroy_block(self, pos, block):
 
-
-
-##### TESTING #####
-# zip(*A) transposes matrix A
-generateMap()
-for col in zip(*Lmap):
-    print(''.join(col))
-for row in zip(*Rmap):
-    print(''.join(col))
-    
-#print(Lmap)
-#print(Rmap)
+    def fill(quad):
+        for col in quad:
+            for height in len(col):
+                # Get height of adjacent grass //col.index(blocks[0])
+                adj_grass = adj_grass_height()
+                grass_height = grass_height()
+                if height == grass_height:
+                    col[height] = self.blocks[0]
+                elif height > grass_height:
+                    col[height] = air
+                elif height < grass_height:
+                    # fill in another function?
