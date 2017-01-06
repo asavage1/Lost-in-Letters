@@ -42,8 +42,25 @@ class Map:
                 adj_grass = adj_grass_height()
                 grass_height = grass_height()
                 if height == grass_height:
-                    col[height] = self.blocks[0]
+                    col[height] = self.blocks[0] # blocks[0] is grass
                 elif height > grass_height:
                     col[height] = air
                 elif height < grass_height:
                     # fill in another function?
+                    col[height] = get_ground(height)
+
+    # fill helpers
+    def adj_grass_height():
+        return 0
+
+    def grass_height():
+        return 0
+
+    # TODO: make rarity more uniform as height gets smaller -- population growth model?
+    def get_ground(height):
+        population = []
+        weights = []
+        for b in blocks:
+            population.append(b.get_skin())
+            weights.append(b.get_rarity())
+        return random.choice(population, p = weights)

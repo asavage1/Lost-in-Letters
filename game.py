@@ -1,5 +1,5 @@
 import pygame
-import block
+from block import * # import all funcs from block.py
 
 blocks = [];
 blocks[0] = Block('.', 1, 3, False)
