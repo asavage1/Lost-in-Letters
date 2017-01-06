@@ -63,4 +63,4 @@ class Map:
         for b in blocks:
             population.append(b.get_skin())
             weights.append(b.get_rarity())
-        return random.choice(population, p = weights)
+        return random.choice(population, weights)
