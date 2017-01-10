@@ -28,7 +28,7 @@ class Map:
         for x in range(len(quad)):
             while (len(quad[x]) != len_)
                 quad[x].append('')
-        fill()
+        fill(quad)
     def move_player(self, pos):
 
     def place_block(self, pos, block):
@@ -37,10 +37,11 @@ class Map:
 
     def fill(quad):
         for col in quad:
-            for height in len(col):
+            for height in range(len(col)):
+                # if col[height] == '':
                 # Get height of adjacent grass //col.index(blocks[0])
                 adj_grass = adj_grass_height()
-                grass_height = grass_height()
+                grass_height = grass_height(adj_grass)
                 if height == grass_height:
                     col[height] = self.blocks[0] # blocks[0] is grass
                 elif height > grass_height:
@@ -53,7 +54,7 @@ class Map:
     def adj_grass_height():
         return 0
 
-    def grass_height():
+    def grass_height(adj_grass):
         return 0
 
     # TODO: make rarity more uniform as height gets smaller -- population growth model?
