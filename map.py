@@ -1,7 +1,7 @@
 # map.py
 # Andrew Savage
 # map generation for lost in letters
-import game
+#import game
 import block
 import random
 class Map:
@@ -27,14 +27,18 @@ class Map:
 
         len_ = len(quad[0] + increment_height)
         for x in range(len(quad)):
-            while (len(quad[x]) != len_)
+            while (len(quad[x]) != len_):
                 quad[x].append('')
         fill(quad)
+        
     def move_player(self, pos):
+        return 0
 
     def place_block(self, pos, block):
+        return 0
 
     def destroy_block(self, pos, block):
+        return 0
 
     def fill(quad):
         for col in quad:
@@ -64,7 +68,7 @@ class Map:
     def get_ground(height):
         population = []
         weights = []
-        for b in blocks:
-            population.append(b.get_skin())
-            weights.append(b.get_rarity())
-        return random.choice(population, weights)
+        for block_index in range(1,len(blocks)): # excludes grass
+            population.append(blocks[block_index].get_skin())
+            weights.append(blocks[block_index].get_rarity())
+        return random.choices(population, weights)

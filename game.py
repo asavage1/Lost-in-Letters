@@ -2,9 +2,9 @@ import pygame
 from block import * # import all funcs from block.py
 
 blocks = [];
-blocks[0] = Block('.', 1, 3, False)
-blocks[1] = Block('#', .5, 5, False)
-blocks[2] = Block("~", .1, 4, False)
+blocks.append(Block('.', 1, 3, False))
+blocks.append(Block('#', .5, 5, False))
+blocks.append(Block("~", .1, 4, False))
 
 class Game:
 	# init initializes the map, the user, and the blocks
