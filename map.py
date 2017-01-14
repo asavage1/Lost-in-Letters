@@ -92,8 +92,9 @@ class Map:
             if y > display_height: # 1 and 2
                 print_horz(self.quad_1, self.quad_2, x, y) #FIX THIS ONE
             elif y < -display_height: # 3 and 4
-
+                return 0
             else: # all 4
+                return 0
 
     def print_one(quad, x, y):
         for i in range(y + display_height, y - display_height):
