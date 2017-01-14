@@ -2,13 +2,13 @@
 # Andrew Savage
 # map generation for lost in letters
 #import game
-import block
+from block import *
 import random
 class Map:
     global increment_height
-    increment_height = 1000
+    increment_height = 10#00
     global increment_width
-    increment_width = 1000
+    increment_width = 10#00
     global display_width
     display_width = 100
     global display_height
@@ -17,15 +17,18 @@ class Map:
     air = ' '
     global grass_std
     grass_std = 3
-    def __init__(self): # intialize grass object?
+    
+    def __init__(self, block_array): # intialize grass object?
+        global blocks
+        blocks = block_array
         self.quad_1 = [] # (0,0)
         self.quad_2 = [] # (-1,0)
         self.quad_3 = [] # (-1,-1)
         self.quad_4 = [] # (0,-1)
         expand_quad(self.quad_1)
-        expand_quad(self.quad_2)
-        expand_quad(self.quad_3)
-        expand_quad(self.quad_4)
+        #expand_quad(self.quad_2)
+        #expand_quad(self.quad_3)
+        #expand_quad(self.quad_4)
         
     def move_player(self, pos):
         return 0
@@ -36,6 +39,7 @@ class Map:
     def destroy_block(self, pos, block):
         return 0
 
+    # this needs to be broken up
     def print_(self, x, y):
         if x > display_width: # do not need to print quads 2 or 3
             if y > display_height: # only print quad 1
@@ -59,28 +63,31 @@ class Map:
             else: # all 4
                 return 0
 
-    def print_one(quad, x, y):
-        for i in range(y + display_height, y - display_height):
-            print(quad[-i][x - display_width : x + display_width], end = '\n')
+########## Printing ##########
+def print_one(quad, x, y):
+    for i in range(y + display_height, y - display_height):
+        print(quad[-i][x - display_width : x + display_width], end = '\n')
 
-    def print_vert(quad1, quad2, x, y):
-        for i in range(y + display_height, -1, -1):
-            print(quad1[i][x - display_width : x + display_width], end = '\n')
+def print_vert(quad1, quad2, x, y):
+    for i in range(y + display_height, -1, -1):
+        print(quad1[i][x - display_width : x + display_width], end = '\n')
 
-        for i in range(0, y - display_height, -1):
-            print(quad2[-i][x - display_width : x + display_width], end = '\n')
+    for i in range(0, y - display_height, -1):
+        print(quad2[-i][x - display_width : x + display_width], end = '\n')
 
-    def print_horz(quad1, quad2, x, y):
-        for i in range(y - display_height, y + display_height):
-            print(quad1[i][display_width - x : -1], end = '')
-            print(quad2[i][0 : display_width + x], end = '\n')
+def print_horz(quad1, quad2, x, y):
+    for i in range(y - display_height, y + display_height):
+        print(quad1[i][display_width - x : -1], end = '')
+        print(quad2[i][0 : display_width + x], end = '\n')
 
-    def horz_flip(quad): # does not modify original array
-        flipped = []
-        for i in range(len(quad)):
-            flipped.append(quad[i][-1::-1])
-        return flipped
+def horz_flip(quad): # does not modify original array
+    flipped = []
+    for i in range(len(quad)):
+        flipped.append(quad[i][-1::-1])
+    return flipped
+########## End Printing ##########
 
+########## Expanding and Filling ##########
 def expand_quad(quad):
     for x in range(increment_width):
         quad.append([])
@@ -90,36 +97,49 @@ def expand_quad(quad):
         while (len(quad[x]) != len_):
             quad[x].append('')
     fill(quad)
-
+    ##  testing map
+    full_map = []
+    for col in quad:
+        elem_list = []
+        for elem in col:
+            if elem == air:
+                elem_list.append(elem)
+            else:
+                elem_list.append(elem.get_skin())
+        full_map.append(elem_list)
+    #full_map = zip(*full_map)
+    print(full_map)
+    ##
+        
 def fill(quad):
     for col in quad:
+        adj_grass = adj_grass_height(quad, col)
+        grass_ht = grass_height(adj_grass)
         for height in range(len(col)):
             if col[height] == '':
-                adj_grass = adj_grass_height(quad, col)
-                grass_height = grass_height(adj_grass)
-                if height == grass_height:
-                    # can't use self?
-                    col[height] = self.blocks[0] # blocks[0] is grass
-                elif height > grass_height:
+                if height == grass_ht:
+                    col[height] = blocks[0] # blocks[0] is grass
+                elif height > grass_ht:
                     col[height] = air
-                elif height < grass_height:
+                elif height < grass_ht:
                     col[height] = get_ground(height)
 
 # fill helpers
 def adj_grass_height(quad, col):
-    if col is None:
+    if col is None or quad[quad.index(col) - 1]:
         return 0 # defaults to 0
     col = quad[quad.index(col) - 1] # error checking
     return col.index(blocks[0].get_skin())
 
 def grass_height(adj_grass):
-    return random.normalvariate(adj_grass, grass_std)
+    return int(random.normalvariate(adj_grass, grass_std))
 
 # TODO: make rarity more uniform as height gets smaller -- population growth model?
 def get_ground(height):
     population = []
     weights = []
     for block_index in range(1,len(blocks)): # excludes grass
-        population.append(blocks[block_index].get_skin())
+        population.append(blocks[block_index])
         weights.append(blocks[block_index].get_rarity())
-    return random.choices(population, weights)
+    return random.choices(population, weights)[0]
+########## End Expanding and Filling ##########
