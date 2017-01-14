@@ -72,3 +72,47 @@ class Map:
             population.append(blocks[block_index].get_skin())
             weights.append(blocks[block_index].get_rarity())
         return random.choices(population, weights)
+
+    def print_(self, x, y):
+        if x > display_width: # do not need to print quads 2 or 3
+            if y > display_height: # only print quad 1
+                print_one(self.quad_1[-1::-1], x, len(self.quad_1) - y)
+            elif y < -display_height: # only print quad 4
+                print_one(self.quad_4, x, y)
+            else: # print quad 1 and 4
+                print_vert(self.quad_1, self.quad_4)
+        elif x < -display_width: # do not need to print quads 1 or 4
+            if y > display_height: # only print quad 2
+                print_one(horz_flip(self.quad_2)[-1::-1], len(self.quad_2[0]) - x, len(self.quad_2) - y)
+            elif y < -display_height: # only print quad 3
+                print_one(horz_flip(self.quad_3), len(self.quad_3[0]) - x, y)
+            else: # print quad 2 and 3
+                print_vert(horz_flip(self.quad_2), horz_flip(self.quad_3), len(self.quad_3[0]) - x, y)
+        else:           
+            if y > display_height: # 1 and 2
+                print_horz(self.quad_1, self.quad_2, x, y) #FIX THIS ONE
+            elif y < -display_height: # 3 and 4
+
+            else: # all 4
+
+    def print_one(quad, x, y):
+        for i in range(y + display_height, y - display_height):
+            print(quad[-i][x - display_width : x + display_width], end = '\n')
+
+    def print_vert(quad1, quad2, x, y):
+        for i in range(y + display_height, -1, -1):
+            print(quad1[i][x - display_width : x + display_width], end = '\n')
+
+        for i in range(0, y - display_height, -1):
+            print(quad2[-i][x - display_width : x + display_width], end = '\n')
+
+    def print_horz(quad1, quad2, x, y):
+        for i in range(y - display_height, y + display_height):
+            print(quad1[i][display_width - x : -1], end = '')
+            print(quad2[i][0 : display_width + x], end = '\n')
+
+    def horz_flip(quad): # does not modify original array
+        flipped = []
+        for i in range(len(quad)):
+            flipped.append(quad[i][-1::-1])
+        return flipped
