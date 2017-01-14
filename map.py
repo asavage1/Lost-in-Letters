@@ -5,11 +5,17 @@
 import block
 import random
 class Map:
+    global increment_height
     increment_height = 1000
+    global increment_width
     increment_width = 1000
+    global display_width
     display_width = 100
+    global display_height
     display_height = 40
+    global air
     air = ' '
+    global grass_std
     grass_std = 3
     def __init__(self): # intialize grass object?
         self.quad_1 = [] # (0,0)
@@ -20,16 +26,6 @@ class Map:
         expand_quad(self.quad_2)
         expand_quad(self.quad_3)
         expand_quad(self.quad_4)
-
-    def expand_quad(quad):
-        for x in range(increment_width):
-            quad.append([])
-
-        len_ = len(quad[0] + increment_height)
-        for x in range(len(quad)):
-            while (len(quad[x]) != len_):
-                quad[x].append('')
-        fill(quad)
         
     def move_player(self, pos):
         return 0
@@ -39,39 +35,6 @@ class Map:
 
     def destroy_block(self, pos, block):
         return 0
-
-    def fill(quad):
-        for col in quad:
-            for height in range(len(col)):
-                if col[height] == '':
-                    adj_grass = adj_grass_height(quad, col)
-                    grass_height = grass_height(adj_grass)
-                    if height == grass_height:
-                        # can't use self?
-                        col[height] = self.blocks[0] # blocks[0] is grass
-                    elif height > grass_height:
-                        col[height] = air
-                    elif height < grass_height:
-                        col[height] = get_ground(height)
-
-    # fill helpers
-    def adj_grass_height(quad, col):
-        if col is None:
-            return 0 # defaults to 0
-        col = quad[quad.index(col) - 1] # error checking
-        return col.index(blocks[0].get_skin())
-
-    def grass_height(adj_grass):
-        return random.normalvariate(adj_grass, grass_std)
-
-    # TODO: make rarity more uniform as height gets smaller -- population growth model?
-    def get_ground(height):
-        population = []
-        weights = []
-        for block_index in range(1,len(blocks)): # excludes grass
-            population.append(blocks[block_index].get_skin())
-            weights.append(blocks[block_index].get_rarity())
-        return random.choices(population, weights)
 
     def print_(self, x, y):
         if x > display_width: # do not need to print quads 2 or 3
@@ -117,3 +80,46 @@ class Map:
         for i in range(len(quad)):
             flipped.append(quad[i][-1::-1])
         return flipped
+
+def expand_quad(quad):
+    for x in range(increment_width):
+        quad.append([])
+
+    len_ = len(quad[0]) + increment_height
+    for x in range(len(quad)):
+        while (len(quad[x]) != len_):
+            quad[x].append('')
+    fill(quad)
+
+def fill(quad):
+    for col in quad:
+        for height in range(len(col)):
+            if col[height] == '':
+                adj_grass = adj_grass_height(quad, col)
+                grass_height = grass_height(adj_grass)
+                if height == grass_height:
+                    # can't use self?
+                    col[height] = self.blocks[0] # blocks[0] is grass
+                elif height > grass_height:
+                    col[height] = air
+                elif height < grass_height:
+                    col[height] = get_ground(height)
+
+# fill helpers
+def adj_grass_height(quad, col):
+    if col is None:
+        return 0 # defaults to 0
+    col = quad[quad.index(col) - 1] # error checking
+    return col.index(blocks[0].get_skin())
+
+def grass_height(adj_grass):
+    return random.normalvariate(adj_grass, grass_std)
+
+# TODO: make rarity more uniform as height gets smaller -- population growth model?
+def get_ground(height):
+    population = []
+    weights = []
+    for block_index in range(1,len(blocks)): # excludes grass
+        population.append(blocks[block_index].get_skin())
+        weights.append(blocks[block_index].get_rarity())
+    return random.choices(population, weights)
