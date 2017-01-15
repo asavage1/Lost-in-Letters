@@ -1,22 +1,24 @@
 # map.py
 # Andrew Savage
 # map generation for lost in letters
+
 #import game
 from block import *
 import random
+
 class Map:
     global increment_height
-    increment_height = 10#00
+    increment_height = 100#0
     global increment_width
-    increment_width = 10#00
+    increment_width = 100#0
     global display_width
     display_width = 100
     global display_height
     display_height = 40
     global air
-    air = ' '
+    air = ' ' # may want to change air to be a block type for consistency purposes
     global grass_std
-    grass_std = 3
+    grass_std = 2
     
     def __init__(self, block_array): # intialize grass object?
         global blocks
@@ -101,20 +103,21 @@ def expand_quad(quad):
     full_map = []
     for col in quad:
         elem_list = []
-        for elem in col:
+        for elem in reversed(col):
             if elem == air:
                 elem_list.append(elem)
             else:
                 elem_list.append(elem.get_skin())
         full_map.append(elem_list)
-    #full_map = zip(*full_map)
-    print(full_map)
+    for col in zip(*full_map):
+        print(''.join(col))
     ##
         
 def fill(quad):
     for col in quad:
         adj_grass = adj_grass_height(quad, col)
         grass_ht = grass_height(adj_grass)
+        print("adj_grass: " + str(adj_grass) + " grass_ht: " + str(grass_ht))
         for height in range(len(col)):
             if col[height] == '':
                 if height == grass_ht:
@@ -126,13 +129,15 @@ def fill(quad):
 
 # fill helpers
 def adj_grass_height(quad, col):
-    if col is None or quad[quad.index(col) - 1]:
+    # col and col-1 are both never None
+    if col is None or quad[quad.index(col) - 1] is None:
         return 0 # defaults to 0
-    col = quad[quad.index(col) - 1] # error checking
-    return col.index(blocks[0].get_skin())
+    col = quad[quad.index(col) - 1]
+    #try catch (ValueError): # catching errors?
+    return col.index(blocks[0])
 
 def grass_height(adj_grass):
-    return int(random.normalvariate(adj_grass, grass_std))
+    return max(int(random.normalvariate(adj_grass, grass_std)), 0)
 
 # TODO: make rarity more uniform as height gets smaller -- population growth model?
 def get_ground(height):
