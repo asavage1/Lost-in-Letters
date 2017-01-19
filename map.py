@@ -18,7 +18,11 @@ class Map:
     global air
     air = ' ' # may want to change air to be a block type for consistency purposes
     global grass_std
-    grass_std = 2
+    grass_std = 3
+
+    ## possibly temporary
+    grass_heights = {}
+    ## holds a dictionary of all grass heights within generated with, to allow for references when only vertain quads are expanded. Is a dictionary to allow for negative keys
     
     def __init__(self, block_array): # intialize grass object?
         global blocks
@@ -129,11 +133,9 @@ def fill(quad):
 
 # fill helpers
 def adj_grass_height(quad, col):
-    # col and col-1 are both never None
-    if col is None or quad[quad.index(col) - 1] is None:
+    if quad.index(col) is 0:
         return 0 # defaults to 0
     col = quad[quad.index(col) - 1]
-    #try catch (ValueError): # catching errors?
     return col.index(blocks[0])
 
 def grass_height(adj_grass):
