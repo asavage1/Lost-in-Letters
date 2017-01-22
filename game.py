@@ -1,4 +1,5 @@
 import pygame
+from map import *
 from block import * # import all funcs from block.py
 
 blocks = [];
@@ -7,14 +8,12 @@ blocks.append(Block('#', .5, 5, False))
 blocks.append(Block("~", .1, 4, False))
 
 class Game:
-	# init initializes the map, the user, and the blocks
-	def __init__(self):
+    # init initializes the map, the user, and the blocks
+    def __init__(self):
         # init blocks
+        self.map_ = Map(blocks)
 
-
-        self.
-
-	def run_game(self):
+    def run_game(self):
 
         time_down = 0.0
         time_elapsed = 0.0
@@ -30,7 +29,7 @@ class Game:
                     if ev.key == K_SPACE:
                         key += 1
                         time_elapsed = (pygame.time.get_ticks() - time_down)/1000.0
-                        print "number: ", key, "duration: ", time_elapsed
+                        print("number: ", key, "duration: ", time_elapsed)
 
             self.tick()
             pygame.display.update()
